@@ -22,6 +22,4 @@ source venv/bin/activate
 ----main
 ----templates
 -------main
-```
-mkdir -vp ./{app/{templates/{main/}},test}
-```
+
