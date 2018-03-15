@@ -1,26 +1,11 @@
-# 概述
-1. 项目初始化
-2. Hello world
+#  完成hello world 应用
 
-# 项目初始化
-1. 安装python
-2. 创建虚拟环境
-```
-python -m venv venv
-windows:
-.\venv\Script\activate
+1. 参考
 
-Linux and mac:
-source venv/bin/activate
-```
-3. 项目结构
-```
-| BasicFlask
---venv
---test
---app
-----static
-----main
-----templates
--------main
-```
+   https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world 
+
+   note.md
+
+   Flask Web开发：基于Python的Web应用开发实战.pdf 
+
+   ​
