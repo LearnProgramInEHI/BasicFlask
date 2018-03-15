@@ -14,6 +14,7 @@ Linux and mac:
 source venv/bin/activate
 ```
 3. 项目结构
+```
 | BasicFlask
 --venv
 --test
@@ -22,4 +23,4 @@ source venv/bin/activate
 ----main
 ----templates
 -------main
-
+```
