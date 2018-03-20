@@ -16,13 +16,13 @@ form div label{
     text-align:right;
 }
 form .submit{
-    margin-left:15%;
+    margin-left:15.3%;
     border:none;
     background-color: #66b2ff;
     height:1.8rem;
     cursor:pointer;
 }
 form textarea{
-    width:200px;
+    width:15rem;
     height:80px;
 }
