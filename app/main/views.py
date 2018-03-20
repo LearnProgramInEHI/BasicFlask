@@ -2,7 +2,8 @@
 #-*- coding:utf-8 -*-
 
 from . import main
+from flask import render_template
 
 @main.route('/')
-def main():
-    return "<h1>Hello World</h1>"
+def index():
+    return render_template("main/index.html")

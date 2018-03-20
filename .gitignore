@@ -2,4 +2,4 @@ venv/
 .idea/
 .DS_*
 *pycache*
-
+migrations/

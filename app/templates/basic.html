@@ -1,0 +1,36 @@
+<html lang="en">
+{%block head%}
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="{{ url_for('static',filename='css/main.css')}}" rel="stylesheet">
+</head>
+{% endblock %}
+<body>
+<header>
+    <h1><a href="{{ url_for('main.index')}}">我的博客</a></h1>
+    <nav>
+        {% if not current_user.is_authenticated %}
+        <div class="nav-header">
+            <a href='{{url_for("auth.login")}}' class="">登录</a>
+        </div>
+        <div class="nav-header">
+            <a href="{{ url_for('auth.register' )}}" class="">注册</a>
+        </div>
+        {% else%}
+        <div class="nav-container">
+            <a class="nav-header">{{ current_user.name }}</a>
+            <div class="nav-content">
+                <a href="{{ url_for('auth.profile')}}">用户中心</a>
+                <a href="{{ url_for('auth.logout')}}">退出登录</a>
+            </div>
+        </div>
+        {% endif %}
+    </nav>
+</header>
+{% block main%}{% endblock %}
+{% block script %}
+<script src="{{ url_for('static', filename='js/main.js')}}"></script>
+{% endblock %}
+</body>
+</html>

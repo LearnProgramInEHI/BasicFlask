@@ -8,23 +8,24 @@
 
 import os
 
-
-
 class Config():
-    SECERT_KEY = os.environ.get('SECRET_KEY')
+    SECRET_KEY = os.environ.get('SECRET_KEY') or "qwe123"
 
     @staticmethod
     def init_app(self):
         pass
 
 
-class DevConfig():
+class DevConfig(Config):
     DEBUG = True
+    SQLALCHEMY_DATABASE_URI='mysql+pymysql://test:qwe123@192.168.232.132/basicblog'
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-class TestConfig():
+
+class TestConfig(Config):
     TEST = True
 
-class ProdConfig():
+class ProdConfig(Config):
     pass
 
 config = {

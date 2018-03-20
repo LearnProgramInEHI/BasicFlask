@@ -1,11 +1,7 @@
-#  完成hello world 应用
+# 概述
+1. 完成mysql数据库的配置
+2. 完成flask到mysql的连接
+3. 数据库的版本控制
+4. 完成认证和注册
 
-1. 参考
 
-   https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world 
-
-   note.md
-
-   Flask Web开发：基于Python的Web应用开发实战.pdf 
-
-   ​

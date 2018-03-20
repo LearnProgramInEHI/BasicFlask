@@ -1,125 +1,53 @@
-# 概述
-1. 项目初始化
-2. Hello world
+# mysql在Linux下的安装
+1. yum 安装
+```
+wget https://dev.mysql.com/get/mysql57-community-release-el7-11.noarch.rpm
+yum localinstall mysql57-community-release-el7-11.noarch.rpm
+yum install mysql-community-server
+```
+2. docker 安装
+```
+安装docker
+docker run --name mysql -p 3306:3306 -v /data/mysql:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456 -d mysql:5.7
+```
+# 连接
+我们使用pymysql连接mysql数据库。 查看 [文档](http://flask-sqlalchemy.pocoo.org/2.3/)
+key | func
+----|----
+SQLALCHEMY_DATABASE_URI| mysql+pymysql://username:passwd@server/db
+SQLALCHEMY_TRACK_MODIFICATIONS|如果orm的对象有改变，就会有一个记录，影响性能，不需要，设置为false
 
-# 项目初始化
-1. 安装python
-2. 创建虚拟环境
+# 数据库的版本控制
+数据库的版本控制用到了flask-migrate,首先安装flask-migrate
 ```
-python -m venv venv
-windows:
-.\venv\Script\activate
+pip install flask-migrate
 
-Linux and mac:
-source venv/bin/activate
-```
-3. 项目结构
-```
-| BasicFlask
---venv
---test
---app
-----static
-----main
-----templates
--------main
-```
-4. 安装flask
-```
-pip install flask
-```
-5. 写入requirements.txt
-```
-pip freeze > requirements.txt
-```
-6. 工厂函数
-```
-为什么要工厂函数？
+加入app构造函数，完成初始化
+...
+from flask_sqlalchemy import SQLAlchemy
+db = SQLAlchemy()
 def create_app():
-    pass
-    
-一般一个简单的flask是是这样的：
-from flask import Flask
-app = Flask(__name__)
-@app.route('/')
-def main():
-	return "Hello Wolrd"
+    db.init_app(app)
 
+在入口的BasicFlask.py 增加
+from app.models import User
 
-这个时候，如果有配置要在中间写进去这么一行：
-...
-app.config.from_object(config)
-...
+写完models.py就可以
+flask db init
+flask db migrate -m "xxxx"
+flask db upgrade
 
-但是在我们开发的时候，有多个环境的，这个时候，你的多个单元测试需要测试应用在多个环境是否正常，但是你却只能传进去一个config。这个时候动态创建app实例就分外重要，可以自动化许多的流程
+如果要回退版本
+flask db downgrade
+flask db downgrade 版本号，在versions里面
+
 ```
-7. 配置分离
+# 注册和认证
+1. 要用到什么模块？
+```
+flask-login
+flask-wtf
 
-   ```
-   class Config():
-       SECRET_KEY = os.environ.get('SECRET_KEY')
-       
-       @staticmethod
-       def init_app(self):
-           pass
-       
-   class DevConfig(Config):
-       ...
-   config ={
-   	'dev':DevConfig,
-       ...
-       'default':DevConfig
-   }
-   ```
-
-8. 主程序运行
-
-   ```
-   新建BasicFlask.py
-
-   from app import create_app
-   app = creat_app('default')
-
-   export FLASK_APP = BasicFlask
-   export FLASK_DEBUG=1
-   flask run
-   ```
-
-   ​
-
-9. 蓝图
-
-   ```
-   这个时候，因为app是动态运行的，你就没办法在views.py 里面直接用app去定制路由，这个时候，蓝图是很不错的一个功能，它允许你把一个应用给分割成多个部分，比如登录，注册是一个模块，主界面是一个模块，后台管理是一个模块。
-   蓝图的使用：
-   新建main文件夹
-   __init__.py:
-
-   from flask import BulePrint
-   main = BluePrint('main',__name__)
-
-   from . import views
-
-   蓝图写好后，要注册到这个app上面才能用
-
-   create_app():
-   	from app.main import main as main_blueprint
-   	app.register(main_blueprint)
-   	
-   ```
-
-   ​
-
-10. 编写views
-
-    ```
-    @main.route('/')
-    def main():
-    	return "hello world"
-    ```
-
-    ​
-
-    ​
-
-    ​
+```
+2. 有什么安全问题？比如说越权，csrf
+3. 如何组织

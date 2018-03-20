@@ -1,0 +1,23 @@
+{% extends 'basic.html' %}
+{% block head %}
+    {{super()}}
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/login.css')}}">
+{% endblock %}
+{% block main %}
+    <form action="" method="POST">
+        <div>
+            {{form.hidden_tag()}}
+        </div>
+        <div>
+            {{ form.username.label }}
+            {{ form.username(class_='username' )}}
+        </div>
+        <div>
+            {{ form.password.label }}
+            {{ form.password(class_='passwd')}}
+        </div>
+        <div>
+            {{form.submit(class_='submit')}}
+        </div>
+    </form>
+{% endblock %}

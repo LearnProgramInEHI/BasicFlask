@@ -1,0 +1,77 @@
+body,
+div,
+p,
+nav,
+main,
+article,
+h1,
+h2,
+h3,
+h4,
+img,
+label,
+input,
+footer,
+header,
+button,
+ul,
+li
+ol{
+    padding:0;
+    margin:0;
+}
+header {
+    background-color:#262626;
+    color: #f2f2f2;
+    font-family:"微软雅黑";
+}
+header a{
+    color: #f2f2f2;
+    text-decoration:none;
+}
+header h1{
+    font-size:1.6rem;
+    padding:0.7rem;
+    display:inline-block;
+    margin-left:1rem;
+}
+header nav{
+    float:right;
+    margin-right:1.5rem;
+}
+header div.nav-container{
+    display:inline-block;
+    position:relative;
+    text-align:center;
+    margin-right:2.5rem;
+    margin-top:14%;
+    width:5rem;
+    padding-bottom:1rem;
+    cursor:pointer;
+}
+header div.nav-content{
+    position:absolute;
+    width:5rem;
+    padding:1.1rem,0;
+    margin-top:1rem;
+    display:none;
+    font-size:14px;
+    height:5rem;
+}
+header div.nav-content a{
+    color: #f2f2f2;
+    background-color:#262626;
+    display:block;
+    text-decoration:none;
+    height:2rem;
+    line-height:2rem;
+    text-align:center;
+}
+header div.nav-container:hover .nav-content{
+    cursor:pointer;
+    display:block;
+}
+header div.nav-header{
+    padding:1rem;
+    display:inline-block;
+}
