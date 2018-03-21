@@ -21,7 +21,7 @@
         <div class="nav-container">
             <a class="nav-header">{{ current_user.name }}</a>
             <div class="nav-content">
-                <a href="{{ url_for('auth.profile')}}">用户中心</a>
+                <a href="{{ url_for('auth.profile',username=current_user.name)}}">用户中心</a>
                 <a href="{{ url_for('auth.logout')}}">退出登录</a>
             </div>
         </div>

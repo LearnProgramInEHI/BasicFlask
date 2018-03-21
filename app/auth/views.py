@@ -49,14 +49,11 @@ def register():
     return render_template('auth/register.html',form=form)
 
 @auth.route('/profile/<username>')
-@login_required
 def profile(username):
     u = User.query.filter_by(name=username).first()
     if u is None:
         abort(404)
-    if current_user.name != u.name:
-        abort(403)
-    return render_template('profile.html',user=u)
+    return render_template('auth/profile.html',user=u)
 
 
 @auth.route('/logout')
