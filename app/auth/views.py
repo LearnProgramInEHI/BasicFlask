@@ -54,7 +54,8 @@ def profile(username):
     u = User.query.filter_by(name=username).first()
     if u is None:
         abort(404)
-    if current_user
+    if current_user.name != u.name:
+        abort(403)
     return render_template('profile.html',user=u)
 
 
