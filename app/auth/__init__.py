@@ -6,8 +6,11 @@
         
 '''
 from flask import Blueprint
-auth = Blueprint('auth',__name__,url_prefix='/admin')
+auth = Blueprint('auth',__name__,url_prefix='/user')
 from . import  views
+from ..models import Permissions
 
-
+@auth.app_context_processor
+def inject_permission():
+    return dict(Permissions=Permissions)
 

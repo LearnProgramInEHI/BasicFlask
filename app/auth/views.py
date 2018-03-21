@@ -9,10 +9,11 @@
 from flask import url_for,render_template,redirect,flash,request
 from . import auth
 from .forms import LoginForm,RegisterForm
-from ..models import User
-from flask_login import login_user,current_user,logout_user
+from ..models import User,Permissions
+from flask_login import login_user,current_user,logout_user,login_required
 from werkzeug.urls import url_parse
 from .. import db
+from ..decoration import permission_required,admin_required
 
 @auth.route('/login',methods=['GET','POST'])
 def login():
@@ -56,3 +57,19 @@ def logout():
     logout_user()
     flash("You have been logout!! ")
     return redirect(url_for('main.index'))
+
+@auth.route('/admin')
+@login_required
+@admin_required
+def for_admin_only():
+    return render_template('auth/admin.html')
+
+@auth.route('/moderator')
+@login_required
+@permission_required(Permissions.MODERATE_COMMENT)
+def for_moderate_only():
+    return "For moderator only"
+
+
+
+
