@@ -9,6 +9,7 @@ from . import db
 from werkzeug.security import generate_password_hash,check_password_hash
 from . import login
 from flask_login import UserMixin,AnonymousUserMixin
+from datetime import datetime
 @login.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -16,6 +17,9 @@ def load_user(user_id):
 class User(UserMixin,db.Model):
     __tablename__= 'user'
     id = db.Column(db.Integer,primary_key=True)
+    location = db.Column(db.String(64))
+    member_since = db.Column(db.DateTime(),default =datetime.utcnow)
+    last_seen = db.Column(db.DateTime(),default=datetime.utcnow)
     name = db.Column(db.String(64),unique=True,index=True,nullable=False)
     email = db.Column(db.String(128),unique=True,nullable=False)
     description = db.Column(db.String(256))
@@ -30,6 +34,10 @@ class User(UserMixin,db.Model):
                 self.role = Role.query.filter_by(permission=0xff).first()
             if self.role is None:
                 self.role = Role.query.filter_by(default=True).first()
+
+    def ping(self):
+        self.last_seen = datetime.utcnow()
+        db.session.add(self)
 
     def can(self,permission):
         return self.role is not None and (self.role.permission & permission) == permission

@@ -6,7 +6,7 @@
         
 '''
 
-from flask import url_for,render_template,redirect,flash,request
+from flask import url_for,render_template,redirect,flash,request,abort
 from . import auth
 from .forms import LoginForm,RegisterForm
 from ..models import User,Permissions
@@ -48,9 +48,15 @@ def register():
         return redirect(url_for('auth.login'))
     return render_template('auth/register.html',form=form)
 
-@auth.route('/profile')
-def profile():
-    return "This is user profile"
+@auth.route('/profile/<username>')
+@login_required
+def profile(username):
+    u = User.query.filter_by(name=username).first()
+    if u is None:
+        abort(404)
+    if current_user
+    return render_template('profile.html',user=u)
+
 
 @auth.route('/logout')
 def logout():

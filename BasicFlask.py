@@ -6,9 +6,10 @@
         
 '''
 from app import create_app,db
-from app.models import User
+from app.models import User,Role
 from flask import url_for
 import os
+from flask_migrate import upgrade,migrate
 
 #from flask_migrate import Migrate
 
@@ -30,3 +31,11 @@ def dated_url_for(endpoint, **values):
     return url_for(endpoint, **values)
 
 
+@app.cli.command()
+def deploy():
+    db.drop_all()
+    db.session.commit()
+    #db.create_all()
+    migrate()
+    upgrade()
+    Role.insert_roles()
