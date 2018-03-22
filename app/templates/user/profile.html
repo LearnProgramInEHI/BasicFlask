@@ -9,5 +9,8 @@
                 <li>{{user.member_since}}</li>
             </ul>
         </div>
+        {% if current_user.name == user.name %}
+        <a href="{{ url_for('user.edit_profile')}}">修改</a>
+        {% endif %}
     </main>
 {% endblock %}

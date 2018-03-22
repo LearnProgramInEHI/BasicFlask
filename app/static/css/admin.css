@@ -1,0 +1,15 @@
+main{
+    font-family:'微软雅黑';
+    padding:1%;
+    margin: 0 auto;
+}
+h1{
+    font-size:1.3rem;
+    padding-bottom:1.3rem;
+}
+table,tr,th,td{
+    border:1px solid black;
+    border-collapse: collapse;
+    padding:0.5rem;
+}
+

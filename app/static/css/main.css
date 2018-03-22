@@ -75,3 +75,32 @@ header div.nav-header{
     padding:1rem;
     display:inline-block;
 }
+
+form{
+    font-family:"微软雅黑";
+    margin-top:10%;
+}
+form div{
+    padding:0.3rem;
+}
+form div input{
+    width:15rem;
+    height:1.4rem;
+    padding:0.3rem;
+}
+form div label{
+    width:15%;
+    display:inline-block;
+    text-align:right;
+}
+form .submit{
+    margin-left:15.3%;
+    border:none;
+    background-color: #66b2ff;
+    height:1.8rem;
+    cursor:pointer;
+}
+form textarea{
+    width:15rem;
+    height:80px;
+}

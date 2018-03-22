@@ -8,7 +8,7 @@
 
 from flask import url_for,render_template,redirect,flash,request,abort
 from . import auth
-from .forms import LoginForm,RegisterForm
+from .forms import LoginForm,RegisterForm,AdminEditUserForm
 from ..models import User,Permissions
 from flask_login import login_user,current_user,logout_user,login_required
 from werkzeug.urls import url_parse
@@ -33,28 +33,19 @@ def login():
     return render_template('auth/login.html',form=form)
 
 
-
 @auth.route('/register',methods=['GET',"POST"])
 def register():
     if current_user.is_authenticated:
         return redirect(url_for('main.index'))
     form = RegisterForm()
     if form.validate_on_submit():
-        u = User(name=form.username.data,email=form.email.data,description=form.description.data)
+        u = User(name=form.username.data,email=form.email.data,description=form.description.data,location=form.localtion.data)
         u.get_password(form.password.data)
         db.session.add(u)
         db.session.commit()
         flash('Congratulation! successful')
         return redirect(url_for('auth.login'))
     return render_template('auth/register.html',form=form)
-
-@auth.route('/profile/<username>')
-def profile(username):
-    u = User.query.filter_by(name=username).first()
-    if u is None:
-        abort(404)
-    return render_template('auth/profile.html',user=u)
-
 
 @auth.route('/logout')
 def logout():
@@ -66,7 +57,8 @@ def logout():
 @login_required
 @admin_required
 def for_admin_only():
-    return render_template('auth/admin.html')
+    users = User.query.all()
+    return render_template('auth/admin.html',users=users)
 
 @auth.route('/moderator')
 @login_required
@@ -74,6 +66,33 @@ def for_admin_only():
 def for_moderate_only():
     return "For moderator only"
 
+@auth.route('/adminedit/<username>',methods=["GET","POST"])
+@login_required
+@admin_required
+def admin_edit(username):
+    user = User.query.filter_by(name=username).first()
+    form = AdminEditUserForm(user)
 
+    if form.validate_on_submit():
+        user.name = form.username.data
+        user.email = form.email.data
+        user.location = form.localtion.data
+        user.description = form.description.data
+        user.role_id = form.role.data
+        db.session.add(user)
+        db.session.commit()
+        return redirect(url_for('auth.for_admin_only'))
+    form.username.data = user.name
+    form.email.data = user.email
+    form.localtion.data = user.location
+    form.description.data = user.description
+    form.role.data = user.role_id
+    return render_template('auth/adminedit.html',form=form)
 
+@auth.route('/admindelete/<username>')
+def admin_delete(username):
+    user = User.query.filter_by(name=username).first()
+    db.session.delete(user)
+    db.session.commit()
+    return redirect(url_for('auth.for_admin_only'))
 

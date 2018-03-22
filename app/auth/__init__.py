@@ -6,7 +6,7 @@
         
 '''
 from flask import Blueprint
-auth = Blueprint('auth',__name__,url_prefix='/user')
+auth = Blueprint('auth',__name__,url_prefix='/auth')
 from . import  views
 from ..models import Permissions
 

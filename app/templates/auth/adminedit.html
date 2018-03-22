@@ -1,0 +1,44 @@
+{% extends "basic.html" %}
+{% block main %}
+    <form method="post">
+        {{ form.hidden_tag() }}
+        <div>
+            {{ form.username.label }}
+            {{ form.username() }}
+            {% for error in form.username.errors %}
+            <span style="color:red">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.email.label }}
+            {{ form.email() }}
+            {% for error in form.email.errors %}
+            <span style="color:red">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.description.label }}
+            {{ form.description() }}
+            {% for error in form.description.errors %}
+            <span style="color:red">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.localtion.label }}
+            {{ form.localtion() }}
+            {% for error in form.localtion.errors %}
+            <span style="color:red">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.role.label }}
+            {{ form.role() }}
+            {% for error in form.localtion.errors %}
+            <span style="color:red">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.submit(class_='submit')}}
+        </div>
+    </form>
+{% endblock %}

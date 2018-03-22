@@ -6,7 +6,7 @@
         
 '''
 from app import create_app,db
-from app.models import User,Role
+from app.models import User,Role,Permissions
 from flask import url_for
 import os
 from flask_migrate import upgrade,migrate
@@ -15,7 +15,10 @@ from flask_migrate import upgrade,migrate
 
 app = create_app('default')
 #migrate = Migrate(app,db)
-
+@app.shell_context_processor
+def make_shell_context():
+    return dict(db=db, User=User,  Role=Role,
+                Permission=Permissions)
 
 @app.context_processor
 def override_url_for():
