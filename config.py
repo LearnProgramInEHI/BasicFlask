@@ -18,7 +18,7 @@ class Config():
 
 class DevConfig(Config):
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI='mysql+pymysql://test:qwe123@192.168.232.132/basicblog'
+    SQLALCHEMY_DATABASE_URI='mysql+pymysql://test:qwe123@192.168.232.132/blog?charset=utf8mb4'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 

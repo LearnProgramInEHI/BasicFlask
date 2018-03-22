@@ -11,7 +11,7 @@ from config import config
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
-db = SQLAlchemy()
+db = SQLAlchemy(use_native_unicode='utf8')
 migrate = Migrate()
 login = LoginManager()
 login.session_protection = 'strong'
