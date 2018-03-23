@@ -6,7 +6,7 @@
         
 '''
 from app import create_app,db
-from app.models import User,Role,Permissions
+from app.models import User,Role,Permissions,Post
 from flask import url_for
 import os
 from flask_migrate import upgrade,migrate
@@ -17,7 +17,7 @@ app = create_app('default')
 #migrate = Migrate(app,db)
 @app.shell_context_processor
 def make_shell_context():
-    return dict(db=db, User=User,  Role=Role,
+    return dict(db=db, User=User,Role=Role,Post=Post,
                 Permission=Permissions)
 
 @app.context_processor

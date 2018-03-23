@@ -26,6 +26,8 @@ class User(UserMixin,db.Model):
     password_hash = db.Column(db.String(256))
     role_id = db.Column(db.Integer,db.ForeignKey('role.id'))
 
+    posts = db.relationship('Post',backref='author',lazy='dynamic')
+
     def __init__(self,**kw):
         super(User,self).__init__(**kw)
         if self.role is None:
@@ -38,6 +40,27 @@ class User(UserMixin,db.Model):
     def ping(self):
         self.last_seen = datetime.utcnow()
         db.session.add(self)
+
+    @staticmethod
+    def generate_fake(count=100):
+        from sqlalchemy.exc import IntegrityError
+        from random import seed
+        import forgery_py
+        seed()
+        for i in range(count):
+            u = User(name=forgery_py.internet.user_name(True),
+                     email=forgery_py.internet.email_address(),
+                     location=forgery_py.address.city(),
+                     description=forgery_py.lorem_ipsum.sentence(),
+                     member_since=forgery_py.date.date(True))
+            u.get_password('qwe123')
+            db.session.add(u)
+            try:
+                db.session.commit()
+            except IntegrityError:
+                db.session.rollback()
+
+
 
     def can(self,permission):
         return self.role is not None and (self.role.permission & permission) == permission
@@ -97,4 +120,28 @@ class AnonymousUser(AnonymousUserMixin):
         return False
     def is_admin(self):
         return False
+
+class Post(db.Model):
+    id = db.Column(db.Integer,primary_key=True)
+    name = db.Column(db.String(128),index=True)
+    body = db.Column(db.Text())
+    timestamp = db.Column(db.DateTime(),default=datetime.utcnow)
+    user_id = db.Column(db.Integer,db.ForeignKey('user.id'))
+
+    def __repr__(self):
+        return "<Post:{}>".format(self.name)
+    @staticmethod
+    def generate_fake(count=100):
+        from random import seed,randint
+        import forgery_py
+        seed()
+        user_count = User.query.count()
+        for i in range(count):
+            u = User.query.offset(randint(0,user_count-1)).first()
+            p = Post(name=forgery_py.lorem_ipsum.word(),
+                     body=forgery_py.lorem_ipsum.sentences(randint(1,99)),
+                     timestamp=forgery_py.date.date(True),
+                     author=u)
+            db.session.add(p)
+            db.session.commit()
 

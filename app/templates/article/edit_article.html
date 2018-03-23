@@ -1,0 +1,35 @@
+{% extends "basic.html" %}
+{% block main %}
+    <form method="POST">
+        <div>
+            {{ form.hidden_tag() }}
+        </div>
+        <div>
+            {{ form.name.label }}
+            {{ form.name(class_='name' )}}
+            {% for error in form.name.errors %}
+            <span style="color:red;">error</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.body.label }}
+            {{ form.body(id='content' )}}
+            {% for error in form.body.errors %}
+            <span style="color:red;">error</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.submit(class_='submit' )}}
+        </div>
+    </form>
+{% endblock %}
+{% block script%}
+    {{ super() }}
+    <script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>
+    <script>
+        tinymce.init({
+            selector:"#content"
+        });
+    </script>
+
+{% endblock %}

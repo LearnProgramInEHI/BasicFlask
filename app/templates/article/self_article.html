@@ -1,0 +1,9 @@
+{% extends "basic.html" %}
+{% block main%}
+
+    <ul>
+        {% for post in posts %}
+        <li><a href="{{ url_for('article.article_detail',article_id=post.id)}}">{{ post.name }}</a></li>
+        {% endfor %}
+    </ul>
+{% endblock %}

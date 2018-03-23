@@ -8,27 +8,34 @@
 {% endblock %}
 <body>
 <header>
-    <h1><a href="{{ url_for('main.index')}}">我的博客</a></h1>
+    <h1><a href="{{ url_for('main.index')}}">简书</a></h1>
     <nav>
-        {% if not current_user.is_authenticated %}
-        <div class="nav-header">
-            <a href='{{url_for("auth.login")}}' class="">登录</a>
-        </div>
-        <div class="nav-header">
-            <a href="{{ url_for('auth.register' )}}" class="">注册</a>
-        </div>
-        {% else%}
         <div class="nav-container">
-            <a class="nav-header">{{ current_user.name }}</a>
-            <div class="nav-content">
-                {% if current_user.can(Permissions.ADMINISTER)%}
-                <a href="{{ url_for('auth.for_admin_only')}}">用户中心</a>
-                <a href="{{ url_for('auth.logout')}}">退出登录</a>
-                {% else %}
-                <a href="{{ url_for('user.profile',username=current_user.name)}}">用户中心</a>
-                <a href="{{ url_for('auth.logout')}}">退出登录</a>
-                {% endif %}
-            </div>
+        {% if not current_user.is_authenticated %}
+             <ul>
+                <li class="nav-header"><a href="{{ url_for('auth.login')}}">登录</a></li>
+                <li><a href="{{url_for('auth.register')}}">注册</a></li>
+            </ul>
+        {% else%}
+            <ul>
+                <li class="nav-header">
+                    <a class="profile">{{ current_user.name }}</a>
+                    <div class="nav-content">
+                        {% if current_user.can(Permissions.ADMINISTER)%}
+                        <a href="{{ url_for('auth.for_admin_only')}}">管理后台</a>
+                        <a href="{{ url_for('user.profile',username=current_user.name)}}">用户中心</a>
+                        <a href="{{ url_for('article.article_list',username=current_user.name)}}">我的博客</a>
+                        <a href="{{ url_for('auth.logout')}}">退出登录</a>
+                        {% else %}
+                        <a href="{{ url_for('user.profile',username=current_user.name)}}">用户中心</a>
+                        <a href="{{ url_for('article.self_articles')}}">我的博客</a>
+                        <a href="{{ url_for('auth.logout')}}">退出登录</a>
+                        {% endif %}
+                    </div>
+                </li>
+                <li><a href="{{url_for('article.new_article')}}">新增文章</a></li>
+            </ul>
+
         </div>
         {% endif %}
     </nav>

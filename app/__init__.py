@@ -34,6 +34,9 @@ def create_app(config_name):
     from app.user import user as user_blueprint
     app.register_blueprint(user_blueprint)
 
+    from app.article import article as article_blueprint
+    app.register_blueprint(article_blueprint)
+
     return app
 
 
