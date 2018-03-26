@@ -34,7 +34,7 @@
 {% endblock %}
 {% block script%}
     {{ super() }}
-    <script src="{{ url_for('static',filename='js/wangEditor.min.js')}}"></script>
+    <script src="https://unpkg.com/wangeditor/release/wangEditor.min.js"></script>
     <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
      <script type="text/javascript">
        var E = window.wangEditor
@@ -47,7 +47,7 @@
             $text1.val(html)
         }
         editor.create()
-        editor.txt.html('{{ post.body_html|safe }}')
+
 
         // 初始化 textarea 的值
         $text1.val(editor.txt.html())

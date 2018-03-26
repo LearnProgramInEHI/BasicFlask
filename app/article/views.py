@@ -24,7 +24,7 @@ def article_list(username):
 @article.route('/<int:article_id>')
 def article_detail(article_id):
     post = Post.query.get_or_404(article_id)
-    return render_template('article/article.html',post=post)
+    return render_template('article/article.html',post=post,permissions=Permissions)
 
 @article.route('/edit/<int:article_id>',methods=['GET',"POST"])
 @login_required
@@ -39,15 +39,15 @@ def edit_article(article_id):
         return redirect(url_for("article.article_detail",article_id=article_id))
     form.name.data = post.name
     form.body.data = post.body
-    return render_template('article/edit_article.html',form=form)
+    return render_template('article/edit_article.html',form=form,post=post)
 
 @article.route('/new',methods=["GET","POST"])
 @login_required
 def new_article():
     form=EditArticleForm()
     if form.validate_on_submit() and current_user.can(Permissions.WRITE_ARTICLE):
-        post =Post(name=form.name.data,body=form.body.data)
+        post =Post(name=form.name.data,body=form.body.data,author=current_user)
         db.session.add(post)
         db.session.commit()
         return redirect(url_for("article.article_detail", article_id=post.id))
-    return render_template('article/edit_article.html',form=form)
+    return render_template('article/new_article.html',form=form)

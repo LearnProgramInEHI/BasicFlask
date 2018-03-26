@@ -3,8 +3,8 @@
 {% block main %}
     <h1>{{ post.name }}</h1>
     <span>{{ post.author.name }}||{{ post.timestamp }}</span>
-    <p>{{ post.body }}</p>
-    {% if current_user.name == post.author.name %}
+    {{ post.body_html|safe }}
+    {% if current_user.name == post.author.name or current_user.can(Permissions.ADMINISTER)%}
         <a href="{{url_for('article.edit_article',article_id=post.id)}}">修改</a>
     {% endif %}
 {% endblock %}

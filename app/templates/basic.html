@@ -28,7 +28,7 @@
                         <a href="{{ url_for('auth.logout')}}">退出登录</a>
                         {% else %}
                         <a href="{{ url_for('user.profile',username=current_user.name)}}">用户中心</a>
-                        <a href="{{ url_for('article.self_articles')}}">我的博客</a>
+                        <a href="{{ url_for('article.article_list',username=current_user.name)}}">我的博客</a>
                         <a href="{{ url_for('auth.logout')}}">退出登录</a>
                         {% endif %}
                     </div>

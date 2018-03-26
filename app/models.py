@@ -10,6 +10,8 @@ from werkzeug.security import generate_password_hash,check_password_hash
 from . import login
 from flask_login import UserMixin,AnonymousUserMixin
 from datetime import datetime
+import bleach
+
 @login.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -125,11 +127,24 @@ class Post(db.Model):
     id = db.Column(db.Integer,primary_key=True)
     name = db.Column(db.String(128),index=True)
     body = db.Column(db.Text())
+    body_html = db.Column(db.Text())
     timestamp = db.Column(db.DateTime(),default=datetime.utcnow)
     user_id = db.Column(db.Integer,db.ForeignKey('user.id'))
 
     def __repr__(self):
         return "<Post:{}>".format(self.name)
+    @staticmethod
+    def on_changed_body(target,value,oldvalue,initiator):
+        allowed_tags = [
+            'a','abbr','acronym','b','blockquote','code','em','i','li',
+            'ol','strong','ul','h1','h2','h3','p','pre','span'
+        ]
+        attrs = {
+            "*":['style']
+        }
+        styles = ['color','font-weight']
+        target.body_html = bleach.clean(value,tags=allowed_tags,strip=True, attributes=attrs,styles=styles)
+
     @staticmethod
     def generate_fake(count=100):
         from random import seed,randint
@@ -145,3 +160,5 @@ class Post(db.Model):
             db.session.add(p)
             db.session.commit()
 
+
+db.event.listen(Post.body, 'set', Post.on_changed_body)
