@@ -51,3 +51,11 @@ def new_article():
         db.session.commit()
         return redirect(url_for("article.article_detail", article_id=post.id))
     return render_template('article/new_article.html',form=form)
+
+@article.route('/delete/<post_id>')
+@login_required
+def delete_article(post_id):
+    post = Post.query.filter_by(id=post_id).first()
+    db.session.delete(post)
+    db.session.commit()
+    return redirect(url_for("article.article_list",username=current_user.name))

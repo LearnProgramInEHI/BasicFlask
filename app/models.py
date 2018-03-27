@@ -137,12 +137,12 @@ class Post(db.Model):
     def on_changed_body(target,value,oldvalue,initiator):
         allowed_tags = [
             'a','abbr','acronym','b','blockquote','code','em','i','li',
-            'ol','strong','ul','h1','h2','h3','p','pre','span'
+            'ol','strong','ul','h1','h2','h3','p','pre','span','img','table','tr','td','th','thead','tbody'
         ]
         attrs = {
             "*":['style']
         }
-        styles = ['color','font-weight']
+        styles = ['color','font-weight','font-style','text-decoration-line','background-color','border','width','cellpadding','cellspacing']
         target.body_html = bleach.clean(value,tags=allowed_tags,strip=True, attributes=attrs,styles=styles)
 
     @staticmethod

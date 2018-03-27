@@ -2,8 +2,12 @@
 {% block main%}
 
     <ul>
+        {% if not posts%}
+        <li>你还没有发表过文章！</li>
+        {% else %}
         {% for post in posts %}
         <li><a href="{{ url_for('article.article_detail',article_id=post.id)}}">{{ post.name }}</a></li>
         {% endfor %}
+        {% endif %}
     </ul>
 {% endblock %}

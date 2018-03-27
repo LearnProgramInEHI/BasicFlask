@@ -19,6 +19,22 @@ li
 ol{
     padding:0;
     margin:0;
+    list-style:none;
+}
+a{
+    color:#fffff;
+}
+.main_index{
+
+}
+.main_index li{
+    display:block;
+    padding:0.5rem;
+}
+.main_index span{
+    font-size:12px;
+    float:right;
+    padding-left:1rem;
 }
 header {
     background-color:#262626;
@@ -88,7 +104,6 @@ header div.nav-content a{
 ul.pagination {
     display: inline-block;
     padding: 0;
-    margin: 0;
 }
 
 ul.pagination li {display: inline;}
@@ -112,4 +127,16 @@ ul.pagination li a.active {
 ul.pagination li a:hover:not(.active) {background-color: #ddd;}
 .disabled{
     background-color:#ddd;
+}
+main{
+    margin:0 auto;
+    width:60rem;
+    padding:1rem;
+
+}
+main div{
+    font-size:16px;
+    font-family:"微软雅黑",
+    padding:1rem;
+    margin-top:2rem;
 }
