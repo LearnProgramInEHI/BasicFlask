@@ -20,10 +20,10 @@
                 <a href="{{ url_for('user.unfollow',username=user.name)}}">Unfollow</a>
                 {% endif %}
             {% endif %}
-            <a href="{{ url_for('user.followers',username=current_user.name ) }}">
+            <a href="{{ url_for('user.followers',username=user.name ) }}">
                 Followers: <span>{{ user.followers.count() }}</span>
             </a>
-            <a href="{{ url_for('user.followed',username=current_user.name) }}">
+            <a href="{{ url_for('user.followed',username=user.name) }}">
                 Followed:<span>{{ user.followed.count() }}</span>
             </a>
 

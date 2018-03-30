@@ -53,7 +53,7 @@ def unfollow(username):
     return redirect(url_for('user.profile',username=u.name))
 
 
-@user.route("/followers/username")
+@user.route("/followers/<username>")
 def followers(username):
     u = User.query.filter_by(name=username).first()
     if u is None:
@@ -61,13 +61,10 @@ def followers(username):
         return redirect(url_for("user.profile",username=current_user.name))
     page = request.args.get('page',1,type=int)
     pagination = u.followers.paginate(page,per_page=10,error_out=False)
-    follows = [{'user':item.follower,'timestamp':item.timstamp} for item in pagination.items]
+    follows = [{'user':item.follower,'timestamp':item.timestamp} for item in pagination.items]
     return render_template('user/followers.html',user=u,endpoint='user.followers',pagination=pagination,follows=follows)
 
-
-
-
-@user.route('followed')
+@user.route('/followed')
 def followed():
     pass
 

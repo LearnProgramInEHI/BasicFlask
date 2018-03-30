@@ -37,6 +37,10 @@ def create_app(config_name):
     from app.article import article as article_blueprint
     app.register_blueprint(article_blueprint)
 
+    from app.api_1_0 import api as api_blueprint
+    app.register_blueprint(api_blueprint)
+
+
     return app
 
 
