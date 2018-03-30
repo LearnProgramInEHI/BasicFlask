@@ -9,6 +9,10 @@
 {% endblock %}
 {% import '_macros.html' as macros %}
 {% block main %}
+{% if current_user.is_authenticated %}
+<a href="{{ url_for('main.show_all')}}">所有文章</a>
+<a href="{{ url_for('main.show_followed')}}">关注朋友的文章</a>
+{% endif %}
 <ul class="main_index">
     {% for post in posts %}
     <li><a href="{{ url_for('article.article_detail',article_id=post.id)}}">{{ post.name }}</a>
@@ -16,9 +20,6 @@
         <span><a href="{{ url_for('article.article_list',username=post.author.name)}}">进入博客</a></span>
     </li>
     {% endfor %}
-
-
-
 </ul>
   {{ macros.pagination_widget(paginate,'main.index')}}
 {% endblock %}

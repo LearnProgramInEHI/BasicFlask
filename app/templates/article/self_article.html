@@ -1,6 +1,6 @@
 {% extends "basic.html" %}
+{% import '_macros.html' as macros %}
 {% block main%}
-
     <ul>
         {% if not posts%}
         <li>你还没有发表过文章！</li>
@@ -10,4 +10,6 @@
         {% endfor %}
         {% endif %}
     </ul>
+
+{{ macros.pagination_widget(pagination,'article.article_list')}}
 {% endblock %}

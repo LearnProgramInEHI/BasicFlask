@@ -42,3 +42,5 @@ def deploy():
     migrate()
     upgrade()
     Role.insert_roles()
+    User.generate_fake()
+    Post.generate_fake()

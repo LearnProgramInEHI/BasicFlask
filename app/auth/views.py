@@ -9,7 +9,7 @@
 from flask import url_for,render_template,redirect,flash,request,abort
 from . import auth
 from .forms import LoginForm,RegisterForm,AdminEditUserForm
-from ..models import User,Permissions
+from ..models import User,Permissions,Post
 from flask_login import login_user,current_user,logout_user,login_required
 from werkzeug.urls import url_parse
 from .. import db
@@ -48,6 +48,7 @@ def register():
     return render_template('auth/register.html',form=form)
 
 @auth.route('/logout')
+@login_required
 def logout():
     logout_user()
     flash("You have been logout!! ")
@@ -90,9 +91,13 @@ def admin_edit(username):
     return render_template('auth/adminedit.html',form=form)
 
 @auth.route('/admindelete/<username>')
+@login_required
+@admin_required
 def admin_delete(username):
     user = User.query.filter_by(name=username).first()
+    post = Post.query.filter_by(author=username).first()
     db.session.delete(user)
+    db.session.delete(post)
     db.session.commit()
     return redirect(url_for('auth.for_admin_only'))
 

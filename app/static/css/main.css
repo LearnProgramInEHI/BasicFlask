@@ -131,7 +131,7 @@ ul.pagination li a:hover:not(.active) {background-color: #ddd;}
 main{
     margin:0 auto;
     width:60rem;
-    padding:1rem;
+    padding:0.5rem;
 
 }
 main div{

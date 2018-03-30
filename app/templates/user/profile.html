@@ -12,5 +12,21 @@
         {% if current_user.name == user.name %}
         <a href="{{ url_for('user.edit_profile')}}">修改</a>
         {% endif %}
+        <div>
+            {% if current_user.can(Permissions.ADMINISTER) and user != current_user %}
+                {% if not current_user.is_following(user)%}
+                <a href="{{ url_for('user.follow',username=user.name)}}">Follow</a>
+                {% else %}
+                <a href="{{ url_for('user.unfollow',username=user.name)}}">Unfollow</a>
+                {% endif %}
+            {% endif %}
+            <a href="{{ url_for('user.followers',username=current_user.name ) }}">
+                Followers: <span>{{ user.followers.count() }}</span>
+            </a>
+            <a href="{{ url_for('user.followed',username=current_user.name) }}">
+                Followed:<span>{{ user.followed.count() }}</span>
+            </a>
+
+        </div>
     </main>
 {% endblock %}

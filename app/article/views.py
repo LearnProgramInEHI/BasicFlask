@@ -7,7 +7,7 @@
 '''
 
 from . import article
-from flask import render_template,redirect,url_for,request,current_app
+from flask import render_template,redirect,url_for,request,current_app,make_response
 from ..models import User,Post,Permissions
 from .forms import EditArticleForm
 from flask_login import current_user,login_required
@@ -16,10 +16,12 @@ from .. import db
 @article.route('/<username>')
 def article_list(username):
     user = User.query.filter_by(name=username).first()
+    query = Post.query.filter_by(user_id=user.id)
     page = request.args.get('page',1,type=1)
-    pagination = Post.query.filter_by(user_id=user.id).order_by(Post.timestamp.desc()).paginate(page,error_out=False)
+    pagination = query.order_by(Post.timestamp.desc()).paginate(page,error_out=False)
     posts = pagination.items
     return render_template('article/self_article.html',posts=posts,pagination=pagination)
+
 
 @article.route('/<int:article_id>')
 def article_detail(article_id):
