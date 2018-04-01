@@ -13,7 +13,7 @@ from flask_migrate import upgrade,migrate
 
 #from flask_migrate import Migrate
 
-app = create_app('default')
+app = create_app('prod')
 #migrate = Migrate(app,db)
 @app.shell_context_processor
 def make_shell_context():
