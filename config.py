@@ -26,7 +26,7 @@ class TestConfig(Config):
     TEST = True
 
 class ProdConfig(Config):
-    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:qwe123@127.0.0.1/BasicFlask?charset=utf8mb4'
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:qwe123@127.0.0.1/blog?charset=utf8mb4'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 config = {

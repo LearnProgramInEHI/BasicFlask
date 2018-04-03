@@ -17,10 +17,10 @@ from .. import db
 def article_list(username):
     user = User.query.filter_by(name=username).first()
     query = Post.query.filter_by(user_id=user.id)
-    page = request.args.get('page',1,type=1)
+    page = request.args.get('page',1,type=int)
     pagination = query.order_by(Post.timestamp.desc()).paginate(page,error_out=False)
     posts = pagination.items
-    return render_template('article/self_article.html',posts=posts,pagination=pagination)
+    return render_template('article/self_article.html',posts=posts,pagination=pagination,name=username)
 
 
 @article.route('/<int:article_id>')

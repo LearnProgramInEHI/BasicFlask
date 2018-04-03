@@ -11,6 +11,9 @@ from . import login
 from flask_login import UserMixin,AnonymousUserMixin
 from datetime import datetime
 import bleach
+from itsdangerous import Serializer
+from flask import current_app
+
 
 @login.user_loader
 def load_user(user_id):
@@ -53,6 +56,18 @@ class User(UserMixin,db.Model):
     def ping(self):
         self.last_seen = datetime.utcnow()
         db.session.add(self)
+
+    def generate_auth_token(self,expiration):
+        s = Serializer(current_app.config['SECRET_KEY'],expires_in=expiration)
+        return s.dumps({'id':self.id})
+    @staticmethod
+    def verify_auth_token(token):
+        s = Serializer(current_app.config['SECRET_KEY'])
+        try:
+            datas = s.loads(token)
+        except:
+            return None
+        return User.query.get(datas['id'])
 
     @staticmethod
     def generate_fake(count=100):
